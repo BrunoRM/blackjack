@@ -12,7 +12,7 @@
 # Ouro   :diamonds:
 
 import emoji
-import copy
+from random import shuffle
 
 class Carta:
     def __init__(self, valor, naipe):
@@ -22,16 +22,16 @@ class Carta:
     def __str__(self):
         return f'{self.valor}{self.naipe}'
 
-naipes = (
-    emoji.emojize(':spades:', use_aliases=True), 
-    emoji.emojize(':hearts:', use_aliases=True),
-    emoji.emojize(':clubs:', use_aliases=True),
-    emoji.emojize(':diamonds:', use_aliases=True)
-)
-
-cartas = ('A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K')
-
 def criar_baralho():
+    naipes = (
+        emoji.emojize(':spades:', use_aliases=True), 
+        emoji.emojize(':hearts:', use_aliases=True),
+        emoji.emojize(':clubs:', use_aliases=True),
+        emoji.emojize(':diamonds:', use_aliases=True)
+    )
+
+    cartas = ('A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K')
+
     baralho = []
     for valor in cartas:
         for naipe in naipes:
@@ -40,8 +40,15 @@ def criar_baralho():
 
     return baralho
 
+def embaralhar(baralho):
+    shuffle(baralho)
+
 baralho = criar_baralho()
 
-print(baralho)
-for carta in baralho:
-    print(carta)
+embaralhar(baralho)
+
+print(baralho.pop())
+print(baralho.pop())
+print(baralho.pop())
+print(baralho.pop())
+print(baralho.pop())
