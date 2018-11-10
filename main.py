@@ -11,44 +11,50 @@
 # Paus   :clubs:
 # Ouro   :diamonds:
 
-import emoji
-from random import shuffle
+# TODO: Tentar criar o design de uma mesa
 
-class Carta:
-    def __init__(self, valor, naipe):
-        self.valor = valor
-        self.naipe = naipe
+import blackjack as bj
 
-    def __str__(self):
-        return f'{self.valor}{self.naipe}'
+def main():
 
-def criar_baralho():
-    naipes = (
-        emoji.emojize(':spades:', use_aliases=True), 
-        emoji.emojize(':hearts:', use_aliases=True),
-        emoji.emojize(':clubs:', use_aliases=True),
-        emoji.emojize(':diamonds:', use_aliases=True)
-    )
+    def exibir_cartas_jogador(jogador):
+        print(f'{jogador.nome}, suas cartas são: \n{jogador.get_cartas_formatada()}')
 
-    cartas = ('A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K')
+    dealer = bj.Dealer('nome_dealer', 'm')
+    dealer.iniciar_jogo()
 
-    baralho = []
-    for valor in cartas:
-        for naipe in naipes:
-            carta = Carta(valor, naipe)
-            baralho.append(carta)
+    sexo_correto = False
+    while not sexo_correto:
+        print('Informe o seu sexo(M/F):')
+        sexo = str(input('')).upper()
+        sexo_correto = True if sexo in ['M', 'F'] else False
+        
+    print('Informe seu nome:')
+    nome = input('')
 
-    return baralho
+    jogador = bj.Jogador(nome, sexo)
 
-def embaralhar(baralho):
-    shuffle(baralho)
+    jogador.receber_cartas(dealer.entregar_cartas())
 
-baralho = criar_baralho()
+    exibir_cartas_jogador(jogador)
 
-embaralhar(baralho)
+    decisao_escolhida = False
+    while not decisao_escolhida:
+        print('O que deseja fazer?')
+        print('1 - Comprar carta')
+        print('2 - Parar')
+        decisao = input('')
+        decisao_escolhida = True if decisao in ['1', '2'] else False
 
-print(baralho.pop())
-print(baralho.pop())
-print(baralho.pop())
-print(baralho.pop())
-print(baralho.pop())
+    if decisao == '1':
+        jogador.receber_carta(dealer.entregar_carta())
+        exibir_cartas_jogador(jogador)
+        somatorio = dealer.validar_blackjack(jogador.cartas())
+        print(somatorio)
+    else:
+        somatorio = dealer.validar_blackjack(jogador.cartas())
+        print(somatorio)
+
+
+if __name__ == "__main__":
+    main()
