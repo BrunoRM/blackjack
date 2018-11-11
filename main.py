@@ -18,12 +18,12 @@ def main():
         print(f'{jogador.nome()}, você perdeu a rodada {emoji.emojize(":thumbsdown:", use_aliases=True)}')
 
     def mensagem_empate():
-        print(f'Empate!!')
+        print(f'A rodada terminou em empate! {emoji.emojize(":open_hands:")}')
 
     limpar_tela()
-    print('=============================')
-    print(' Seja bem-vindo ao blackjack')
-    print('=============================')
+    print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
+    print('    Seja bem-vindo ao blackjack')
+    print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
 
     dealer = bj.Dealer()
 

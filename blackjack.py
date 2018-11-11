@@ -116,7 +116,9 @@ class Dealer:
                 while pode_jogar:
                     self.__cartas.append(self.entregar_carta())
                     soma_dealer = self.somatorio_cartas(self.__cartas)
-                    if soma_dealer == 21:
+                    if soma_dealer == soma_jogador:
+                        return 0
+                    elif soma_dealer == 21:
                         return -1
                     elif soma_dealer > 21:
                         return 1
@@ -124,8 +126,6 @@ class Dealer:
                         continue
                     elif soma_dealer < 21 and soma_dealer > soma_jogador:
                         return -1
-                    elif soma_dealer == soma_jogador:
-                        return 0
             else:
                 return 0
 
