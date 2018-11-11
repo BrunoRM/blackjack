@@ -1,60 +1,86 @@
-# cartas de 2-10 valem o valor do número na face da carta.
-# Cartas numeradas valem o número correspondente indicado 
-# na carta. As cartas de rosto (aquelas com imagens) 
-# valem 10, exceto para o Ás, que vale 1 ou 11. Uma 
-# imagem combinada com um Ás é Blackjack (um valor de 21).
-
-# TODO: Usar emojis para os naipes das cartas
-# Para usar os emojis de cartas:
-# Espada :spades:
-# Copas  :hearts:
-# Paus   :clubs:
-# Ouro   :diamonds:
-
-# TODO: Tentar criar o design de uma mesa
-
 import blackjack as bj
+import os
+import emoji
 
 def main():
 
-    def exibir_cartas_jogador(jogador):
-        print(f'{jogador.nome}, suas cartas são: \n{jogador.get_cartas_formatada()}')
+    def exibir_cartas_jogador(jogador: bj.Jogador):
+        print(f'{jogador.cartas_str()}')
 
-    dealer = bj.Dealer('nome_dealer', 'm')
-    dealer.iniciar_jogo()
+    def limpar_tela():
+        os.system('cls')
+        os.system('clear')
 
-    sexo_correto = False
-    while not sexo_correto:
-        print('Informe o seu sexo(M/F):')
-        sexo = str(input('')).upper()
-        sexo_correto = True if sexo in ['M', 'F'] else False
-        
-    print('Informe seu nome:')
-    nome = input('')
+    def mensagem_vitoria_jogador(jogador):
+        print(f'Parabéns {jogador.nome()}, você venceu a rodada! {emoji.emojize(":clap:"*10, use_aliases=True)}')
 
-    jogador = bj.Jogador(nome, sexo)
+    def mensagem_derrota_jogador(jogador):
+        print(f'{jogador.nome()}, você perdeu a rodada {emoji.emojize(":thumbsdown:", use_aliases=True)}')
 
-    jogador.receber_cartas(dealer.entregar_cartas())
+    def mensagem_empate():
+        print(f'Empate!!')
 
-    exibir_cartas_jogador(jogador)
+    limpar_tela()
+    print('=============================')
+    print(' Seja bem-vindo ao blackjack')
+    print('=============================')
 
-    decisao_escolhida = False
-    while not decisao_escolhida:
-        print('O que deseja fazer?')
-        print('1 - Comprar carta')
-        print('2 - Parar')
-        decisao = input('')
-        decisao_escolhida = True if decisao in ['1', '2'] else False
+    dealer = bj.Dealer()
 
-    if decisao == '1':
-        jogador.receber_carta(dealer.entregar_carta())
-        exibir_cartas_jogador(jogador)
-        somatorio = dealer.validar_blackjack(jogador.cartas())
-        print(somatorio)
-    else:
-        somatorio = dealer.validar_blackjack(jogador.cartas())
-        print(somatorio)
+    nome_correto = False
+    while not nome_correto:
+        print('Informe seu nome:')
+        nome = str(input(''))        
+        if len(nome.strip()) > 0: 
+            nome_correto = True
+        else: 
+            print(f'Nome inválido')
+            limpar_tela()
 
+    jogador = bj.Jogador(nome)
+    continuar_jogando = True
+    while continuar_jogando:    
+        dealer.iniciar_jogo()
+        limpar_tela()
+        jogador.receber_cartas(dealer.entregar_cartas_jogador())    
+
+        # Caso o jogador já tenha 21 no entregar das cartas
+        somatorio_jogador = dealer.somatorio_cartas(jogador.cartas())
+        escolher_decisao = True if somatorio_jogador < 21 else False
+        while escolher_decisao:
+            # limpar_tela()
+            print(f'{jogador.nome()}, suas cartas são: ')
+            exibir_cartas_jogador(jogador)
+            print('O que deseja fazer?')
+            print('1 - Comprar carta')
+            print('2 - Parar de jogar')
+            decisao = str(input(''))
+            if decisao not in ['1', '2']:                
+                continue
+            else:
+                limpar_tela()
+                if decisao == '1':
+                    jogador.receber_carta(dealer.entregar_carta())                    
+                    somatorio_jogador = dealer.somatorio_cartas(jogador.cartas())
+                    if somatorio_jogador == 21: escolher_decisao = False
+                    elif somatorio_jogador > 21: escolher_decisao = False
+                    else: continue
+                else:
+                    escolher_decisao = False
+
+        resultado = dealer.resultado_jogador(jogador)
+        if resultado == -1:
+            mensagem_derrota_jogador(jogador)                    
+        elif resultado == 0:
+            mensagem_empate()                        
+        else:
+            mensagem_vitoria_jogador(jogador)
+
+        print(f'Suas cartas: {jogador.cartas_str()}({dealer.somatorio_cartas(jogador.cartas())})')
+        print(f'Cartas do Dealer: {dealer.cartas_str()}({dealer.somatorio_cartas(dealer.cartas())})')
+        dealer.receber_cartas_jogador(jogador.entregar_cartas())
+        print('Deseja jogar novamente?')
+        continuar_jogando = True if str(input()).upper() == 'S' else False
 
 if __name__ == "__main__":
     main()
