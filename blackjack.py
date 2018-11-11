@@ -59,7 +59,11 @@ class Dealer:
         for carta in cartas:
             self.__cartas.append(carta)
 
-    def entregar_cartas(self):
+    def receber_cartas_jogador(self, cartas):
+        for carta in cartas:
+            self.__baralho.append(carta)
+
+    def entregar_cartas_jogador(self):
         return [self.__baralho.pop(), self.__baralho.pop()]
 
     def entregar_carta(self):
@@ -71,7 +75,7 @@ class Dealer:
             s = 0
             soma_aux = 0
             for i in range(0, qtd_as+1):
-                soma_aux = soma + (10 * (qtd_as - i)) + i
+                soma_aux = soma + (11 * (qtd_as - i)) + i
 
                 if soma_aux > s and soma_aux <= 21: s = soma_aux
                 elif soma_aux > s and (s > 21 or s == 0): s = soma_aux
@@ -97,29 +101,42 @@ class Dealer:
     def resultado_jogador(self, jogador):
         # -1 = Derrota do jogador, 0 = Empate, 1 = Vitória do jogador
         soma_jogador = self.somatorio_cartas(jogador.cartas())
-        if soma_jogador == 21:
-            return 1
-        elif soma_jogador > 21:
+        if soma_jogador > 21:
             return -1
-        elif soma_jogador < 21:
+        else:
             soma_dealer = self.somatorio_cartas(self.__cartas)
-            if soma_dealer > soma_jogador:
+            if soma_dealer == 21 and soma_jogador == 21:
+                return 0
+            elif soma_dealer == 21:
                 return -1
+            elif soma_dealer > soma_jogador and soma_dealer < 21:
+                return -1            
             elif soma_dealer < soma_jogador:
                 pode_jogar = True
                 while pode_jogar:
                     self.__cartas.append(self.entregar_carta())
                     soma_dealer = self.somatorio_cartas(self.__cartas)
-                    if soma_dealer > 21:
-                        return 1
-                    elif soma_dealer == 21 or soma_dealer > soma_jogador:
+                    if soma_dealer == 21:
                         return -1
-                    else:
+                    elif soma_dealer > 21:
+                        return 1
+                    elif soma_dealer < 21 and soma_dealer < soma_jogador:
+                        continue
+                    elif soma_dealer < 21 and soma_dealer > soma_jogador:
+                        return -1
+                    elif soma_dealer == soma_jogador:
                         return 0
             else:
                 return 0
-        else:
-            return 0
+
+    def cartas(self):
+        return self.__cartas
+
+    def cartas_str(self):
+        cartas = ''
+        for carta in self.__cartas:
+            cartas += f'{carta} '
+        return cartas
 
 class Jogador:
     def __init__(self, nome):
@@ -133,14 +150,17 @@ class Jogador:
     def nome(self):
         return self.__nome
 
-    def get_cartas_formatada(self):
-        fcartas = ''
+    def cartas_str(self):
+        cartas = ''
         for carta in self.__cartas:
-            fcartas += f'{carta} '
-        return fcartas
+            cartas += f'{carta} '
+        return cartas
 
     def cartas(self):
         return self.__cartas
+
+    def entregar_cartas(self):
+        return [self.__cartas.pop() for _ in range(0, len(self.__cartas))]    
 
     def receber_carta(self, carta_recebida):
         self.__cartas.append(carta_recebida)
