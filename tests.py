@@ -211,12 +211,31 @@ def teste_somatorio_cartas():
         Carta('2', '')
     ]) == 12     
 
+    assert dealer.somatorio_cartas([ 
+        Carta('A', ''), 
+        Carta('A', '')
+    ]) == 12
+
+    assert dealer.somatorio_cartas([ 
+        Carta('A', ''), 
+        Carta('A', ''),
+        Carta('9', '')
+    ]) == 21 
+
 def teste_empate():
     dealer = Dealer()
     jogador = Jogador('teste')
 
     jogador.receber_cartas([Carta('A', ''), Carta('10', '')])
     dealer.receber_cartas([Carta('J', ''), Carta('A', '')])
+    assert dealer.resultado_jogador(jogador) == 0
+
+def teste_empate_inicio_rodada():
+    dealer = Dealer()
+    jogador = Jogador('teste')
+
+    jogador.receber_cartas([Carta('6', ''), Carta('A', ''), Carta('3', '')])
+    dealer.receber_cartas([Carta('Q', ''), Carta('Q', '')])
     assert dealer.resultado_jogador(jogador) == 0
 
 def teste_vitoria_jogador_com_blackjack():

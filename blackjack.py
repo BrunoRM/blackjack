@@ -76,7 +76,7 @@ class Dealer:
             soma_aux = 0
             for i in range(0, qtd_as+1):
                 soma_aux = soma + (11 * (qtd_as - i)) + i
-
+                
                 if soma_aux > s and soma_aux <= 21: s = soma_aux
                 elif soma_aux > s and (s > 21 or s == 0): s = soma_aux
                 elif soma_aux < s and s > 21: s = soma_aux
@@ -111,7 +111,7 @@ class Dealer:
                 return -1
             elif soma_dealer > soma_jogador and soma_dealer < 21:
                 return -1            
-            elif soma_dealer <= soma_jogador:
+            elif soma_dealer < soma_jogador:
                 pode_jogar = True
                 while pode_jogar:
                     self.__cartas.append(self.entregar_carta())

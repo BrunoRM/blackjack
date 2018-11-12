@@ -3,10 +3,6 @@ import os
 import emoji
 
 def main():
-
-    def exibir_cartas_jogador(jogador: bj.Jogador):
-        print(f'{jogador.cartas_str()}')
-
     def limpar_tela():
         os.system('cls')
         os.system('clear')
@@ -48,9 +44,8 @@ def main():
         somatorio_jogador = dealer.somatorio_cartas(jogador.cartas())
         escolher_decisao = True if somatorio_jogador < 21 else False
         while escolher_decisao:
-            # limpar_tela()
-            print(f'{jogador.nome()}, suas cartas são: ')
-            exibir_cartas_jogador(jogador)
+            print(f'Dealer: {str(dealer.cartas_str()).split(" ")[0]}')
+            print(f'Você: {jogador.cartas_str()}({dealer.somatorio_cartas(jogador.cartas())})')
             print('O que deseja fazer?')
             print('1 - Comprar carta')
             print('2 - Parar de jogar')
