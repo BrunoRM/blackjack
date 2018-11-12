@@ -80,18 +80,24 @@ class Dealer:
             for i in range(0, qtd_as+1):
                 soma_aux = soma + (11 * (qtd_as - i)) + i
                 
-                if soma_aux > s and soma_aux <= 21: s = soma_aux
-                elif soma_aux > s and (s > 21 or s == 0): s = soma_aux
-                elif soma_aux < s and s > 21: s = soma_aux
+                if soma_aux > s and soma_aux <= 21: 
+                    s = soma_aux
+                elif soma_aux > s and (s > 21 or s == 0): 
+                    s = soma_aux
+                elif soma_aux < s and s > 21: 
+                    s = soma_aux
                 
             return s
 
         cartas_as = []
         soma = 0
         for carta in cartas_jogador:
-            if carta.valor() == 'A': cartas_as.append(carta)
-            elif carta.valor() in ['J', 'Q', 'K']: soma += 10
-            else: soma += int(carta.valor())
+            if carta.valor() == 'A': 
+                cartas_as.append(carta)
+            elif carta.valor() in ['J', 'Q', 'K']: 
+                soma += 10
+            else: 
+                soma += int(carta.valor())
 
         if len(cartas_as) > 0:
             soma = somatorio_as(soma, len(cartas_as))
@@ -110,10 +116,8 @@ class Dealer:
             soma_dealer = self.somatorio_cartas(self.__cartas)
             if soma_dealer == 21 and soma_jogador == 21:
                 return 0
-            elif soma_dealer == 21:
-                return -1
-            elif soma_dealer > soma_jogador and soma_dealer < 21:
-                return -1            
+            elif soma_dealer == 21 or (soma_dealer > soma_jogador and soma_dealer < 21):
+                return -1        
             elif soma_dealer < soma_jogador:
                 pode_jogar = True
                 while pode_jogar:
@@ -121,14 +125,12 @@ class Dealer:
                     soma_dealer = self.somatorio_cartas(self.__cartas)
                     if soma_dealer == soma_jogador:
                         return 0
-                    elif soma_dealer == 21:
+                    elif soma_dealer == 21 or (soma_dealer < 21 and soma_dealer > soma_jogador):
                         return -1
                     elif soma_dealer > 21:
                         return 1
                     elif soma_dealer < 21 and soma_dealer < soma_jogador:
                         continue
-                    elif soma_dealer < 21 and soma_dealer > soma_jogador:
-                        return -1
             else:
                 return 0
 

@@ -1,11 +1,15 @@
 import blackjack as bj
 import os
 import emoji
+import platform
 
 def main():
     def limpar_tela():
-        os.system('cls')
-        os.system('clear')
+        os_name = platform.system()
+        if 'Windows' in os_name:
+            os.system('cls')
+        else:
+            os.system('clear')
 
     def mensagem_vitoria_jogador(jogador):
         print(f'Parabéns {jogador.nome()}, você venceu a rodada! {emoji.emojize(":clap:"*10, use_aliases=True)}')
@@ -27,8 +31,10 @@ def main():
     while not nome_correto:    
         print('Informe seu nome:')
         nome = str(input(''))
-        if len(nome.strip()) > 0: nome_correto = True
-        else:  print(f'Nome inválido')
+        if len(nome.strip()) > 0: 
+            nome_correto = True
+        else:
+            print(f'Nome inválido')
 
     jogador = bj.Jogador(nome)
     continuar_jogando = True
@@ -54,9 +60,12 @@ def main():
                 if decisao == '1':
                     jogador.receber_carta(dealer.entregar_carta())                    
                     somatorio_jogador = dealer.somatorio_cartas(jogador.cartas())
-                    if somatorio_jogador == 21: escolher_decisao = False
-                    elif somatorio_jogador > 21: escolher_decisao = False
-                    else: continue
+                    if somatorio_jogador == 21: 
+                        escolher_decisao = False
+                    elif somatorio_jogador > 21: 
+                        escolher_decisao = False
+                    else: 
+                        continue
                 else:
                     escolher_decisao = False
 
