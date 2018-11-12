@@ -111,7 +111,7 @@ class Dealer:
                 return -1
             elif soma_dealer > soma_jogador and soma_dealer < 21:
                 return -1            
-            elif soma_dealer < soma_jogador:
+            elif soma_dealer <= soma_jogador:
                 pode_jogar = True
                 while pode_jogar:
                     self.__cartas.append(self.entregar_carta())
