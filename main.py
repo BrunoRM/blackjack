@@ -18,20 +18,17 @@ def main():
 
     limpar_tela()
     print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
-    print('    Seja bem-vindo ao blackjack')
+    print('  Seja bem-vindo ao blackjack  ')
     print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
 
     dealer = bj.Dealer()
 
     nome_correto = False
-    while not nome_correto:
+    while not nome_correto:    
         print('Informe seu nome:')
-        nome = str(input(''))        
-        if len(nome.strip()) > 0: 
-            nome_correto = True
-        else: 
-            print(f'Nome inválido')
-            limpar_tela()
+        nome = str(input(''))
+        if len(nome.strip()) > 0: nome_correto = True
+        else:  print(f'Nome inválido')
 
     jogador = bj.Jogador(nome)
     continuar_jogando = True

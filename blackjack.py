@@ -64,7 +64,10 @@ class Dealer:
             self.__baralho.append(carta)
 
     def entregar_cartas_jogador(self):
-        return [self.__baralho.pop(), self.__baralho.pop()]
+        cartas = []
+        cartas.append(self.__baralho.pop())
+        cartas.append(self.__baralho.pop())
+        return cartas
 
     def entregar_carta(self):
         return self.__baralho.pop()
