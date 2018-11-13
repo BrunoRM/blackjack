@@ -20,23 +20,27 @@ def main():
     def mensagem_empate():
         print(f'A rodada terminou em empate! {emoji.emojize(":open_hands:")}')
 
-    limpar_tela()
-    print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
-    print('  Seja bem-vindo ao blackjack  ')
-    print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
+    def exibir_boas_vindas():
+        print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
+        print('  Seja bem-vindo ao blackjack  ')
+        print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
 
+    limpar_tela()
+    exibir_boas_vindas()
     dealer = bj.Dealer()
 
-    nome_correto = False
-    while not nome_correto:    
-        print('Informe seu nome:')
+    nome_incorreto = True
+    while nome_incorreto:    
+        print('Informe seu nome: ', end='')
         nome = str(input(''))
         if len(nome.strip()) > 0: 
-            nome_correto = True
+            nome_incorreto = False
         else:
+            limpar_tela()
+            exibir_boas_vindas()
             print(f'Nome inválido')
 
-    jogador = bj.Jogador(nome)
+    jogador = bj.Jogador(nome.capitalize())
     continuar_jogando = True
     while continuar_jogando:    
         dealer.iniciar_jogo()
@@ -47,13 +51,18 @@ def main():
         somatorio_jogador = dealer.somatorio_cartas(jogador.cartas())
         escolher_decisao = True if somatorio_jogador < 21 else False
         while escolher_decisao:
-            print(f'Dealer: {str(dealer.cartas_str()).split(" ")[0]}')
-            print(f'Você: {jogador.cartas_str()}({dealer.somatorio_cartas(jogador.cartas())})')
-            print('O que deseja fazer?')
+            print('************************ Mesa ************************')
+            print(f'Dealer: {str(dealer.cartas_str()).split(" ")[0]} -     ', end='')
+            print(f'Você: {jogador.cartas_str()}({dealer.somatorio_cartas(jogador.cartas())})', end="\n\n")
+
+            print('-------------------')
             print('1 - Comprar carta')
             print('2 - Parar de jogar')
+            print('-------------------')
+            print('O que deseja fazer? ', end='')
             decisao = str(input(''))
-            if decisao not in ['1', '2']:                
+            if decisao not in ['1', '2']:    
+                limpar_tela()
                 continue
             else:
                 limpar_tela()
@@ -66,7 +75,7 @@ def main():
                         escolher_decisao = False
                     else: 
                         continue
-                else:
+                else:                    
                     escolher_decisao = False
 
         resultado = dealer.resultado_jogador(jogador)
