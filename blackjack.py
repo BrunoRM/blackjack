@@ -15,14 +15,14 @@ class Carta:
 
 class Dealer:
     def __init__(self):
-        self._baralho = self.__criar_baralho()
+        self._baralho = self._criar_baralho()
         self._descartes = []
         self._cartas = []
 
-    def __embaralhar(self):        
+    def _embaralhar(self):        
         shuffle(self._baralho)
 
-    def __criar_baralho(self):
+    def _criar_baralho(self):
         cartas = ('A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K')
         naipes = (
             emoji.emojize(':spades:', use_aliases=True), 
@@ -49,7 +49,7 @@ class Dealer:
             for carta in self._cartas:
                 self._baralho.append(carta)
         
-        self.__embaralhar()
+        self._embaralhar()
 
         # No inicio da rodada serão descartadas 5 cartas e entregues 2 ao Dealer
         self._descartes = [self._baralho.pop() for _ in range(0, 5)]
