@@ -1,7 +1,5 @@
 import blackjack as bj
-import os
-import emoji
-import platform
+import os,platform
 
 def main():
     def limpar_tela():
@@ -12,18 +10,18 @@ def main():
             os.system('clear')
 
     def mensagem_vitoria_jogador(jogador):
-        print(f'Parabéns {jogador.nome()}, você venceu a rodada! {emoji.emojize(":clap:"*10, use_aliases=True)}')
+        print(f'Parabéns, {jogador.nome()}, você venceu a rodada! ' + ('\U0001F44F' * 10))
 
     def mensagem_derrota_jogador(jogador):
-        print(f'{jogador.nome()}, você perdeu a rodada {emoji.emojize(":thumbsdown:", use_aliases=True)}')
+        print(f'{jogador.nome()}, você perdeu a rodada! \U0001F44E')
 
     def mensagem_empate():
-        print(f'A rodada terminou em empate! {emoji.emojize(":open_hands:")}')
+        print(f'A rodada terminou em empate! \U0001F450')
 
     def exibir_boas_vindas():
-        print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
+        print(f'===============\u2660\u2665\u2666\u2663===============')
         print('  Seja bem-vindo ao blackjack  ')
-        print(f'==============={emoji.emojize(":spades:", use_aliases=True)}{emoji.emojize(":hearts:", use_aliases=True)}{emoji.emojize(":clubs:", use_aliases=True)}{emoji.emojize(":diamonds:", use_aliases=True)}===============')
+        print(f'===============\u2660\u2665\u2666\u2663===============')
 
     limpar_tela()
     exibir_boas_vindas()
