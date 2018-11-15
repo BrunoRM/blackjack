@@ -1,5 +1,5 @@
 import blackjack as bj
-import os,platform
+import os, platform
 
 def main():
     def limpar_tela():
@@ -10,7 +10,10 @@ def main():
             os.system('clear')
 
     def mensagem_vitoria_jogador(jogador):
-        print(f'Parabéns, {jogador.nome()}, você venceu a rodada! ' + ('\U0001F44F' * 10))
+        print('Parabéns {0}, você venceu a rodada! {1}'.format(
+            jogador.nome(), 
+            '\U0001F44F' * 10)
+        )
 
     def mensagem_derrota_jogador(jogador):
         print(f'{jogador.nome()}, você perdeu a rodada! \U0001F44E')
