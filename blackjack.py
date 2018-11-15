@@ -1,4 +1,3 @@
-import emoji
 from random import shuffle
 from typing import List
 
@@ -24,14 +23,9 @@ class Dealer:
 
     def _criar_baralho(self):
         cartas = ('A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K')
-        naipes = (
-            emoji.emojize(':spades:', use_aliases=True), 
-            emoji.emojize(':hearts:', use_aliases=True),
-            emoji.emojize(':clubs:', use_aliases=True),
-            emoji.emojize(':diamonds:', use_aliases=True)
-        )
-
+        naipes = ('\u2660','\u2665','\u2666','\u2663') # Espada, Copas, Ouros, Paus
         baralho = []
+
         for valor in cartas:
             for naipe in naipes:
                 baralho.append(Carta(valor, naipe))
