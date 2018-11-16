@@ -106,7 +106,7 @@ class Dealer:
 
     def resultado_jogador(self, jogador):
         satisfaz_vitoria_dealer = lambda soma_dealer, soma_jogador: soma_dealer == 21 or (soma_dealer < 21 and soma_dealer > soma_jogador)
-        satisfaz_empate = lambda soma_dealer, soma_jogador: soma_dealer == 21 and soma_jogador == 21
+        satisfaz_empate = lambda soma_dealer, soma_jogador: soma_dealer == soma_jogador
 
         # -1 = Derrota do jogador
         # 0 = Empate
@@ -126,9 +126,7 @@ class Dealer:
                     self._cartas.append(self.entregar_carta())
                     soma_dealer = self.somatorio_cartas(self._cartas)
                     if satisfaz_empate(soma_dealer, soma_jogador):
-                        return 0
-                    elif (soma_dealer == soma_jogador and soma_jogador < 21) or (soma_dealer < 21 and soma_dealer < soma_jogador):
-                        continue
+                        return 0                
                     elif satisfaz_vitoria_dealer(soma_dealer, soma_jogador):
                         return -1
                     elif soma_dealer > 21:
