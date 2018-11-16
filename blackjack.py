@@ -105,31 +105,34 @@ class Dealer:
         return len(self._baralho)
 
     def resultado_jogador(self, jogador):
-        # -1 = Derrota do jogador, 0 = Empate, 1 = Vitória do jogador
+        satisfaz_vitoria_dealer = lambda soma_dealer, soma_jogador: soma_dealer == 21 or (soma_dealer < 21 and soma_dealer > soma_jogador)
+        satisfaz_empate = lambda soma_dealer, soma_jogador: soma_dealer == 21 and soma_jogador == 21
+
+        # -1 = Derrota do jogador
+        # 0 = Empate
+        # 1 = Vitória do jogador
         soma_jogador = self.somatorio_cartas(jogador.cartas())
         if soma_jogador > 21:
             return -1
         else:
             soma_dealer = self.somatorio_cartas(self._cartas)
-            if soma_dealer == 21 and soma_jogador == 21:
+            if satisfaz_empate(soma_dealer, soma_jogador):
                 return 0
-            elif soma_dealer == 21 or (soma_dealer > soma_jogador and soma_dealer < 21):
-                return -1        
-            elif soma_dealer < soma_jogador:
+            elif satisfaz_vitoria_dealer(soma_dealer, soma_jogador):
+                return -1
+            elif soma_dealer <= soma_jogador:
                 pode_jogar = True
                 while pode_jogar:
                     self._cartas.append(self.entregar_carta())
                     soma_dealer = self.somatorio_cartas(self._cartas)
-                    if soma_dealer == soma_jogador:
+                    if satisfaz_empate(soma_dealer, soma_jogador):
                         return 0
-                    elif soma_dealer == 21 or (soma_dealer < 21 and soma_dealer > soma_jogador):
+                    elif (soma_dealer == soma_jogador and soma_jogador < 21) or (soma_dealer < 21 and soma_dealer < soma_jogador):
+                        continue
+                    elif satisfaz_vitoria_dealer(soma_dealer, soma_jogador):
                         return -1
                     elif soma_dealer > 21:
                         return 1
-                    elif soma_dealer < 21 and soma_dealer < soma_jogador:
-                        continue
-            else:
-                return 0
 
     def cartas(self):
         return self._cartas
