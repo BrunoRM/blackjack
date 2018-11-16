@@ -69,19 +69,22 @@ class Dealer:
     def somatorio_cartas(self, cartas_jogador: List[Carta]):
 
         def somatorio_as(soma, qtd_as):
-            s = 0
-            soma_aux = 0
+            melhor_somatorio = 0 # Maior valor do somatório que esteja abaixo ou seja igual à 21
+            somatorio_atual = 0 # Valor corrente do somatório
             for i in range(0, qtd_as+1):
-                soma_aux = soma + (11 * (qtd_as - i)) + i
+                somatorio_atual = soma + (11 * (qtd_as - i)) + i
                 
-                if soma_aux > s and soma_aux <= 21: 
-                    s = soma_aux
-                elif soma_aux > s and (s > 21 or s == 0): 
-                    s = soma_aux
-                elif soma_aux < s and s > 21: 
-                    s = soma_aux
+                if somatorio_atual > melhor_somatorio and somatorio_atual <= 21: 
+                    melhor_somatorio = somatorio_atual                    
+                elif somatorio_atual > melhor_somatorio and (melhor_somatorio > 21 or melhor_somatorio == 0): 
+                    melhor_somatorio = somatorio_atual
+                elif somatorio_atual < melhor_somatorio and melhor_somatorio > 21: 
+                    melhor_somatorio = somatorio_atual
+
+                if melhor_somatorio == 21:
+                    break
                 
-            return s
+            return melhor_somatorio
 
         cartas_as = []
         soma = 0
